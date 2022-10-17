@@ -1,7 +1,8 @@
-import sys
 from typing import Optional, Union
 from matplotlib import dates
-sys.path.insert(0,r'C:\Users\ampsi\OneDrive\Ambiente de Trabalho\segundo_ano\SIB\src\si')
+import sys
+sys.path.insert(0, 'src/si')
+
 
 import numpy as np
 

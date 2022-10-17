@@ -1,6 +1,6 @@
 
 import sys
-sys.path.insert(0, 'C:/Users/ampsi/OneDrive/Ambiente de Trabalho/segundo_ano/SIB/src/si')
+sys.path.insert(0, 'src/si')
 
 from typing import Optional, Union
 import pandas as pd
