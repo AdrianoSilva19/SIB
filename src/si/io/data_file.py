@@ -1,12 +1,8 @@
 from typing import Optional, Union
 from matplotlib import dates
-import sys
-sys.path.insert(0, 'src/si')
-
-
 import numpy as np
 
-from data.dataset import Dataset
+from si.data.dataset import Dataset
 
 def read_data_file(filename: str, sep: str = ",", label: Union[None, int]= None):
     """Read a data file and returns a dataset object.

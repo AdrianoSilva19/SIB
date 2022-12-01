@@ -1,11 +1,9 @@
 from typing import Callable
-import pandas as pd
 import numpy as np
-import sys
-sys.path.insert(0,"src/si")
 
-from statistics.f_classification import f_classification
-from data.dataset import Dataset
+
+from si.statistics.f_classification import f_classification
+from si.data.dataset import Dataset
 
 
 class SelectPercentile:

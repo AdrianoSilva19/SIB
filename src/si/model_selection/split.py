@@ -1,10 +1,8 @@
 
 import sys
 import os
-sys.path.insert(0, 'src/si')
 import numpy as np
-
-from data.dataset import Dataset
+from si.data.dataset import Dataset
 
 
 def train_test_split(dataset:Dataset,test_size: float = 0.2, random_state: int = 40)-> tuple[Dataset, Dataset]:

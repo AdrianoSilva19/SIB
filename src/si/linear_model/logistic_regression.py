@@ -1,12 +1,9 @@
 
-import sys
-sys.path.insert(0, 'src/si')
-# print(sys.path)
 import numpy as np
 import matplotlib.pyplot as plt
-from data.dataset import Dataset
-from statistics.sigmoid_function import sigmoid_function
-from metrics.accuracy import accuracy
+from si.data.dataset import Dataset
+from si.statistics.sigmoid_function import sigmoid_function
+from si.metrics.accuracy import accuracy
 
 
 

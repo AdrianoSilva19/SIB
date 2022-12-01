@@ -1,10 +1,5 @@
-import sys
-sys.path.insert(0, 'src/si')
-
-
-from typing import Callable
 import numpy as np
-from data.dataset import Dataset
+from si.data.dataset import Dataset
 
 
 class PCA:

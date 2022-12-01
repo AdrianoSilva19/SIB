@@ -1,12 +1,8 @@
-
-import sys
-sys.path.insert(0, 'src/si')
-
 from typing import Optional, Union
 import pandas as pd
 import numpy as np
 
-from data.dataset import Dataset
+from si.data.dataset import Dataset
 
 def read_csv(filename:str, sep:str = ",", features: Optional[bool] = True, label: Union[None, int]= None):
     imported_data = pd.read_csv(filepath_or_buffer=filename, sep=sep)

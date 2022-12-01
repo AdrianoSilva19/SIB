@@ -1,11 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
-sys.path.insert(0, 'src/si')
-# print(sys.path)
-
-from data.dataset import Dataset
-from metrics.mse import mse
+from si.data.dataset import Dataset
+from si.data.mse import mse
 
 
 class RidgeRegression:

@@ -1,6 +1,4 @@
-import sys
-import os
-sys.path.insert(0, 'src/si')
+
 import numpy as np
 
 

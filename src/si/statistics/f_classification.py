@@ -2,9 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 
-import sys
-sys.path.insert(0,"src/si")
-from data.dataset import Dataset
+from si.data.dataset import Dataset
 from typing import Tuple, Union
 
 

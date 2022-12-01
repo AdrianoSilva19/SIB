@@ -2,12 +2,11 @@ import sys
 import os
 from typing import Callable
 
-sys.path.insert(0, 'src/si')
 import numpy as np
 import pandas as pd
-from statistics.euclidean_distance import euclidean_distance
-from metrics.accuracy import accuracy
-from data.dataset import Dataset
+from si.statistics.euclidean_distance import euclidean_distance
+from si.metrics.accuracy import accuracy
+from si.data.dataset import Dataset
 
 
 class KNNClassifier:

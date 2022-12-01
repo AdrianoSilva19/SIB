@@ -1,11 +1,6 @@
-
-import sys
-sys.path.insert(0, 'src/si')
-# print(sys.path)
-
 from typing import Callable
-from statistics.euclidean_distance import euclidean_distance
-from data.dataset import Dataset
+from si.statistics.euclidean_distance import euclidean_distance
+from si.data.dataset import Dataset
 import numpy as np
 
 class KMeans:
