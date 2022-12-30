@@ -11,14 +11,14 @@ def grid_search_cv(model,dataset:Dataset,parameter_grid:Dict[str, List[float]],s
             raise AttributeError(f"Model {model} does not have parameter {parameter}.")
 
     scores = []
-    # for each combination
-    combinations = itertools.product(*parameter_grid.values())
 
-    for combination in combinations:
-        # parameters
+    # for each combination
+    for combination in itertools.product(*parameter_grid.values()):
+
+        # parameter configuration
         parameters = {}
 
-        # set parameters
+        # set the parameters
         for parameter, value in zip(parameter_grid.keys(), combination):
             setattr(model, parameter, value)
             parameters[parameter] = value
@@ -26,10 +26,10 @@ def grid_search_cv(model,dataset:Dataset,parameter_grid:Dict[str, List[float]],s
         # cross validate the model
         score = cross_validate(model=model, dataset=dataset, scoring=scoring, cv=cv, test_size=test_size)
 
-        # add parameter configuration
-        score["parameters"] = parameters
+        # add the parameter configuration
+        score['parameters'] = parameters
 
-        # add score to scores
+        # add the score
         scores.append(score)
 
     return scores

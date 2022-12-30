@@ -1,5 +1,5 @@
 import numpy as np
-
+from math import sqrt
 
 def rmse(y_true:int,y_pred:int):
     """
@@ -12,5 +12,6 @@ def rmse(y_true:int,y_pred:int):
     Returns:
         _type_: RMSE between real and predicted values
     """
-    
-    return np.sqrt(((y_true - y_pred) ** 2).mean())
+    rmse = sqrt(np.sum((y_true - y_pred) ** 2) / len(y_true))
+
+    return rmse

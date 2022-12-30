@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from typing import Tuple, List
-
+from typing import Tuple, Sequence
 
 class Dataset:
     
@@ -92,22 +92,58 @@ class Dataset:
     
     def dropna (self):
         """Class method that removes samples with atleast one null (NaN) value."""
-        
-        return pd.DataFrame(self.X).dropna(axis=0).reset_index(drop=True)
+        if self.X is None:
+            return
+
+        self.X = self.X[~np.isnan(self.X).any(axis=1)]
+
+        return Dataset(self.X, self.y, self.features, self.labels)
     
     def fillna(self, value: int):
         """Class method that fills all NaN values with the given value
         Args:
             value (int): Given value to replace null values with
         """
-        
-        return pd.DataFrame(self.X).fillna(value)
+        if self.X is None:
+            return
+
+        self.X = np.where(pd.isnull(self.X), value, self.X)
+
+        return Dataset(self.X, self.y, self.features, self.labels)
     
     def print_dataframe(self):
         """Prints dataframe in pandas DataFrame format
         """
         return pd.DataFrame(self.X, columns=self.features, index=self.y)
-        
+
+    @classmethod
+    def from_random(cls,
+                    n_samples: int,
+                    n_features: int,
+                    n_classes: int = 2,
+                    features: Sequence[str] = None,
+                    label: str = None):
+        """
+        Creates a Dataset object from random data
+        Parameters
+        ----------
+        n_samples: int
+            The number of samples
+        n_features: int
+            The number of features
+        n_classes: int
+            The number of classes
+        features: list of str
+            The feature names
+        label: str
+            The label name
+        Returns
+        -------
+        Dataset
+        """
+        X = np.random.rand(n_samples, n_features)
+        y = np.random.randint(0, n_classes, n_samples)
+        return cls(X, y, features=features, label=label)
 
 
 
@@ -116,7 +152,6 @@ if __name__ == "__main__":
     y=np.array([1,2])
     features=["A","B","C"]
     label="y"
-    dataset=Dataset(X=x,Y=y,features=features,labels=None)
-    print(dataset.shape())
+    dataset=Dataset(X=x,y=y,features=features,label=None)
     print(dataset.has_label())
     print(dataset.summary())

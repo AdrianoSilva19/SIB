@@ -6,7 +6,6 @@ from si.statistics.sigmoid_function import sigmoid_function
 from si.metrics.accuracy import accuracy
 
 
-
 class LogisticRegression:
     def __init__(self, l2_penalty: float = 1, alpha: float = 0.001, max_iter: int = 1000):
         """
@@ -21,12 +20,12 @@ class LogisticRegression:
         self.l2_penalty = l2_penalty
         self.alpha = alpha
         self.max_iter = max_iter
-        
+
         # attributes
         self.theta = None
         self.theta_zero = None
         self.cost_history = {}
-        
+
     def fit(self, dataset: Dataset) -> "LogisticRegression":
         """
         Fits the model to the dataset
@@ -36,36 +35,36 @@ class LogisticRegression:
             LogisticRegression: The fitted model.
         """
         m, n = dataset.get_shape()
-        
+
         # initialize the model parameters
         self.theta = np.zeros(n)
         self.theta_zero = 0
-        
+
         threshold = 0.0001
-        
+
         # gradient descent
         for i in range(int(self.max_iter)):
             # computes the cost history and updates it with iteration and cost
             self.cost_history[i] = self.cost(dataset=dataset)
-            
+
             if i > 1 and (self.cost_history[i - 1] - self.cost_history[i] < threshold):
                 break
             else:
                 # predicted y
                 y_pred = sigmoid_function(np.dot(dataset.X, self.theta) + self.theta_zero)
-                
+
                 # computes the gradient with the learning rate
                 gradient = (self.alpha * (1 / m)) * np.dot(y_pred - dataset.y, dataset.X)
-                
+
                 # computes the l2 regularization penalty
                 penalization_term = self.alpha * (self.l2_penalty / m) * self.theta
-                
+
                 # updates the model parameters theta and theta_zero
                 self.theta = self.theta - gradient - penalization_term
                 self.theta_zero = self.theta_zero - (self.alpha * (1 / m)) * np.sum(y_pred - dataset.y)
-                
+
         return self
-    
+
     def predict(self, dataset: Dataset) -> np.array:
         """
         Predict the output dataset
@@ -77,7 +76,7 @@ class LogisticRegression:
         y_pred = sigmoid_function(np.dot(dataset.X, self.theta) + self.theta_zero)
         y_pred = [1 if x >= 0.5 else 0 for x in y_pred]
         return y_pred
-    
+
     def score(self, dataset: Dataset) -> float:
         """
         Computes the accuracy of the model on the dataset.
@@ -88,11 +87,11 @@ class LogisticRegression:
         """
         y_pred = self.predict(dataset)
         return accuracy(dataset.y, y_pred)
-    
+
     def cost(self, dataset: Dataset) -> float:
         """
         Compute the cost function (J function) of the model on the dataset using L2 regularization
-        
+
         Args:
             dataset (Dataset): Dataset object.
         Returns:
@@ -102,12 +101,12 @@ class LogisticRegression:
         predictions = sigmoid_function(np.dot(dataset.X, self.theta) + self.theta_zero)
         cost = (- dataset.y * np.log(predictions)) - ((1 - dataset.y) * np.log(1 - predictions))
         cost = np.sum(cost) / n
-        
+
         # regularization term
         cost = cost + (self.l2_penalty * np.sum(self.theta ** 2) / (2 * n))
-        
+
         return cost
-    
+
     def plot_cost_history(self):
         """
         Plots the cost history using matplotlib with x axis as number of iterations and y axis as cost value.

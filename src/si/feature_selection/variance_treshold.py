@@ -5,10 +5,23 @@ from si.data.dataset import Dataset
 
 class VarianceThreshold:
     def __init__ (self, threshold = 0.0):
+        """
+        The variance threshold represents a baseline approach for feature selection.
+        Removes all features wich variance doesn't meet a threshhold given by the user.
+        :param threshold: Non negative threshold. Defaults to 0.
+        :type threshold: int
+        """
         self.threshold=threshold
         self.variance=None
 
     def transform(self, dataset):
+        """
+        Selects all Features with variance higher than the threshold and returns a new dataset with the selected features
+        :param dataset: Dataset to be transformed
+        :type dataset: Dataset
+        :return: Dataset object with best Features
+        :rtype: Dataset
+        """
         mask= self.variance>self.threshold
         newX=dataset.X[:,mask]
         features= np.array(dataset.features)[mask]
@@ -16,11 +29,21 @@ class VarianceThreshold:
 
 
     def fit (self, dataset):
+        """
+        Calculate the variance of each feature in a dataset
+        :param dataset: Dataset object
+        :type dataset: Dataset
+        """
         variance=dataset.get_variance()
         self.variance=variance
         return self
 
     def fit_transform(self, dataset):
+        """
+        Runs fit and transform method automatically
+        :param dataset: Dataset object
+        :type dataset: Dataset
+        """
         self.fit(dataset)
         return self.transform(dataset)
 
