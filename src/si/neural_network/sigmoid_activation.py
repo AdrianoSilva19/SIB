@@ -2,30 +2,30 @@ import numpy as np
 from si.statistics.sigmoid_function import sigmoid_function
 
 class SigmoidActivation:
-    def __int__(self):
-        self.input_data = None
+    def __init__(self):
+        # attribute
+        self.x = None
 
-    def forward(self, input_data: np.ndarray) -> np.ndarray:
+    @staticmethod
+    def forward(input_data: np.ndarray) -> np.ndarray:
         """
         Computes the forward pass of the layer.
-        Args:
-            input_data (np.ndarray): Input data.
+        :param input_data: input data
+        :return: Returns the input data multiplied by the weights.
         """
-        self.input_data = input_data
+
         return sigmoid_function(input_data)
 
-    def backward(self, error: np.ndarray, learning_rate: float) -> np.ndarray:
+    @staticmethod
+    def backward(input_data: np.ndarray, error: np.ndarray) -> np.ndarray:
         """
         Computes the backward pass of the layer.
-        Args:
-            error (np.ndarray): Error
-        Returns:
-            np.ndarray: Return the error of the previous layer.
+        :return: Returns the error of the previous layer.
         """
+        # multiplication of each element by the derivative and not by the entire matrix
 
-        # multiplication by the derivative and not the entire matrix
-        sigmoid_deriv = sigmoid_function(self.input_data) * (1 - sigmoid_function(self.input_data))
+        sigmoid_derivative = sigmoid_function(input_data) * (1 - sigmoid_function(input_data))
 
-        error_to_propagate = error * sigmoid_deriv
+        error_to_propagate = error * sigmoid_derivative
 
         return error_to_propagate

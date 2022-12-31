@@ -1,89 +1,49 @@
 import numpy as np
 
 
-class Dense:
-    """
-    A dense layer is a layer where each neuron is connected to all neurons in the previous layer.
-    Parameters
-    ----------
-    input_size: int
-        The number of inputs the layer will receive.
-    output_size: int
-        The number of outputs the layer will produce.
-    Attributes
-    ----------
-    weights: np.ndarray
-        The weights of the layer.
-    bias: np.ndarray
-        The bias of the layer.
-    """
 
+class Dense:
     def __init__(self, input_size: int, output_size: int):
-        """
-        Initialize the dense layer.
-        Parameters
-        ----------
-        input_size: int
-            The number of inputs the layer will receive.
-        output_size: int
-            The number of outputs the layer will produce.
-        """
         # parameters
         self.input_size = input_size
         self.output_size = output_size
 
         # attributes
-        self.weights = np.random.randn(input_size, output_size) * 0.01
-        self.bias = np.zeros((1, output_size))
+        # weight matriz initialization
+        shape = (input_size, output_size)
 
-    def forward(self, X: np.ndarray) -> np.ndarray:
-        """
-        Performs a forward pass of the layer using the given input.
-        Returns a 2d numpy array with shape (1, output_size).
-        Parameters
-        ----------
-        X: np.ndarray
-            The input to the layer.
-        Returns
-        -------
-        output: np.ndarray
-            The output of the layer.
-        """
-        return np.dot(X, self.weights) + self.bias
+        self.x = None
+        self.weights = np.random.randn(*shape) * 0.01  # 0.01 is a hyperparameter to avoid exploding
+        # gradients
+        # each layer receives a weight that multiplies by the input that are then summed
+        self.bias = np.zeros((1, output_size))  # bias initialization, receives a bias to avoid overfitting
 
-    def backward(self, error: np.ndarray, learning_rate: float) -> np.ndarray:
+    def forward(self, x: np.ndarray) -> np.ndarray:
         """
+        Computes the forward pass of the layer.
+        :param x: input data value
+        :return: Returns the input data multiplied by the weights.
         """
-        return error
+        self.x = x
+        # the input_data needs to be a matrix with the same number of columns as the number of features
+        # the number os columns of the input_data must be equal to the number of rows of the weights
+        return np.dot(x, self.weights) + self.bias
 
+    def backward(self, error: np.ndarray, learning_rate: float = 0.01) -> np.ndarray:
+        """
+        Computes the backward pass of the layer
+        :param error: error value of the loss function
+        :param learning_rate: learning rate
+        :return: Returns the error of the previous layer.
+        """
 
-class SigmoidActivation:
-    """
-    A sigmoid activation layer.
-    """
+        error_to_propagate = np.dot(error, self.weights.T)
 
-    def __init__(self):
-        """
-        Initialize the sigmoid activation layer.
-        """
-        pass
+        # updates the weights and bias
+        self.weights = self.weights - learning_rate * np.dot(self.x.T, error)  # x.T is used to multiply the error by
+        # the input data due to matrix multiplication rules
 
-    def forward(self, X: np.ndarray) -> np.ndarray:
-        """
-        Performs a forward pass of the layer using the given input.
-        Returns a 2d numpy array with shape (1, output_size).
-        Parameters
-        ----------
-        X: np.ndarray
-            The input to the layer.
-        Returns
-        -------
-        output: np.ndarray
-            The output of the layer.
-        """
-        return 1 / (1 + np.exp(-X))
+        self.bias = self.bias - learning_rate * np.sum(error, axis=0)  # sum because the bias has the dimension of
+        # nodes and the error has the dimension of samples and nodes (batch size, nodes)
 
-    def backward(self, error: np.ndarray, learning_rate: float) -> np.ndarray:
-        """
-        """
-        return error
+        return error_to_propagate
